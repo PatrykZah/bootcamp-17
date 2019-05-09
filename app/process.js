@@ -1,3 +1,5 @@
+var OSinfo = require('../modules/OSinfo');
+
 process.stdout.write('use /help to get commands list\n');
 process.stdin.setEncoding('utf-8')
 
@@ -11,7 +13,8 @@ process.stdin.on('readable', function() {
 				process.stdout.write(
 `Instruction list:
 /node - node version
-/lang - client language
+/lang - get language
+/getOSinfo - get system info
 /exit - exit app
 `)
 				break;
@@ -20,6 +23,9 @@ process.stdin.on('readable', function() {
 				break
 			case '/lang':
 				process.stdout.write(process.env.LANG);
+				break
+			case '/getOSinfo':
+				OSinfo.print()
 				break
 			case '/exit':
 				process.stdout.write('instruction correct, terminate app')
@@ -33,6 +39,3 @@ process.stdin.on('readable', function() {
 		
 	}
 });
-
-
-
