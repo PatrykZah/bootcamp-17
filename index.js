@@ -1,12 +1,26 @@
+var EventEmitter = require('events').EventEmitter;
 var OSinfo = require('./modules/OSinfo');
+
+var emitter = new EventEmitter();
+emitter.on('beforeCommand', function(instruction) {
+	console.log('You wrote: ' + instruction + ' trying to run command.')
+});
+emitter.on('afterCommand', function() {
+	process.stderr.write('\nFinished command\n\n')
+	process.stdin.resume()
+});
+
+
 
 process.stdout.write('use /help to get commands list\n');
 process.stdin.setEncoding('utf-8')
 
 process.stdin.on('readable', function() {
 	var input = process.stdin.read()
+
 	if(input !== null) {
 		input = input.toString().trim();
+		emitter.emit('beforeCommand', input);
 		
 		switch(input) {
 			case '/help':
@@ -34,8 +48,7 @@ process.stdin.on('readable', function() {
 			default:
 				process.stderr.write('404 instruction not found! use /help');
 		}
-		process.stderr.write('\n\n')
-		process.stdin.resume()
 		
+		emitter.emit('afterCommand');
 	}
 });
