@@ -1,4 +1,4 @@
-var OSinfo = require('../modules/OSinfo');
+var OSinfo = require('./modules/OSinfo');
 
 process.stdout.write('use /help to get commands list\n');
 process.stdin.setEncoding('utf-8')
