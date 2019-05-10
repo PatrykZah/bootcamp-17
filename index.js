@@ -3,6 +3,7 @@ var OSinfo = require('./modules/OSinfo');
 var fs = require('fs');
 var StatMode = require('stat-mode');
 var colors = require('colors')
+var http = require('http');
 
 var emitter = new EventEmitter();
 emitter.on('beforeCommand', function(instruction) {
@@ -38,7 +39,7 @@ process.stdin.on('readable', function() {
 /tekstr <text> - overwrite tekst.txt with <text>
 /teksta <text> - append tekst.txt with <text>
 /dir [<file name>] - show dir,[save dir list to <file name>]
-/exit	- exit app
+/exit - exit app
 `)
 				break;
 			case '/node':
@@ -82,6 +83,32 @@ process.stdin.on('readable', function() {
 		emitter.emit('afterCommand');
 	}
 });
+
+
+var server = http.createServer(function (request, response) {
+	//response.setHeader("Content-Type", "text/html; charset=utf-8");
+	if(request.url==="/") { request.url = "/index.html"}
+	console.log(request)
+	
+	if (request.method === 'GET') {
+		fs.readFile("."+request.url, function(err, data) {	
+			if(data){
+				response.write(data,'binary');
+				response.end(null,'binary');
+			}else{
+				fs.readFile('./error.html', function(err, data) {
+					response.statusCode = 404;
+					response.write(data,'binary');
+					response.end(null,'binary');
+				});
+			}
+		});
+	}
+});
+
+server.listen(80)
+console.log('server started at port 80')
+
 
 function tekst(){
 fs.readFile('./tekst.txt','utf-8', function(err, data) {
