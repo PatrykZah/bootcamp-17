@@ -1,0 +1,1 @@
+.git,cat.jpg,dir.txt,index.js,modules,node_modules,package-lock.json,package.json,tekst.txt
