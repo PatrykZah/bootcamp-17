@@ -1,0 +1,50 @@
+<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<style>
+		html,
+		body {
+			background-color: black;
+			margin: 0;
+			color: white;
+		}
+		img {
+			display: block;
+			height: 100vh;
+			margin: auto;
+		}
+		h1 {
+			text-align: center;
+		}
+		form {
+			display: flex;
+			flex-flow: column;
+			max-width: 250px;
+			margin: auto;
+			border: 3px solid yellow;
+			border-radius: 10px;
+			padding: 10px;
+		}
+	</style>
+</head>
+<body>
+	<h1>Wgraj plik</h1>
+	<form action="/upload" enctype="multipart/form-data" method="post">
+		<label>Tytuł pliku</label>
+		<input type="text" name="newFileName">
+		<br>
+		<label>Plik</label>
+		<input type="file" name="upload"><br>
+		<input type="submit" value="Wyślij">
+	</form>
+	
+	<script>
+		var inputFileName = document.querySelector('input[name=newFileName]')
+		var inputFileSelect = document.querySelector('input[name=upload]')
+		inputFileSelect.onchange = function(){
+			var name = this.files[0].name
+			inputFileName.value = name
+		}
+	</script>
+</body>
+</html>
